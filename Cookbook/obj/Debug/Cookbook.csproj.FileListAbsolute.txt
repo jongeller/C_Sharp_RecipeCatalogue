@@ -149,3 +149,6 @@ E:\Cookbook_Sprint3\Cookbook\bin\Debug\Cookbook.exe
 E:\Cookbook_Sprint3\Cookbook\bin\Debug\Cookbook.pdb
 E:\Cookbook_Sprint3\Cookbook\bin\Debug\EntityFramework.dll
 E:\Cookbook_Sprint3\Cookbook\bin\Debug\EntityFramework.xml
+E:\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\Cookbook.exe.config
+E:\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\Cookbook.exe
+E:\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\Cookbook.pdb
