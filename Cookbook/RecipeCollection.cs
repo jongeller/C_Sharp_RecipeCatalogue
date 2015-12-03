@@ -19,11 +19,6 @@ namespace Cookbook
             CastRecipesByType();
         }
 
-        public void AddRecipe(Recipe NewRecipe)
-        {
-            recipeCollection.Add(NewRecipe);
-        }
-
         //Cast recipes by type
         private void CastRecipesByType()
         {
