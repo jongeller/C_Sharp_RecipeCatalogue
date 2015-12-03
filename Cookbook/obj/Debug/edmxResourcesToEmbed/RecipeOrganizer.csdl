@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RecipeOrganizerModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="RecipeOrganizerEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Ingredients" EntityType="RecipeOrganizerModel.Ingredient" />
+    <EntitySet Name="Recipes" EntityType="RecipeOrganizerModel.Recipe" />
+    <AssociationSet Name="FK_Ingredients_Recipes" Association="RecipeOrganizerModel.FK_Ingredients_Recipes">
+      <End Role="Recipes" EntitySet="Recipes" />
+      <End Role="Ingredients" EntitySet="Ingredients" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Ingredient">
+    <Key>
+      <PropertyRef Name="IngredientID" />
+    </Key>
+    <Property Name="IngredientID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Ingredient1" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="RecipeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Recipe" Relationship="RecipeOrganizerModel.FK_Ingredients_Recipes" FromRole="Ingredients" ToRole="Recipes" />
+  </EntityType>
+  <EntityType Name="Recipe">
+    <Key>
+      <PropertyRef Name="RecipeID" />
+    </Key>
+    <Property Name="RecipeID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Yield" Type="String" MaxLength="15" Unicode="false" FixedLength="true" />
+    <Property Name="ServingSize" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="Directions" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Comment" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+    <Property Name="RecipeType" Type="String" Nullable="false" MaxLength="12" Unicode="false" FixedLength="true" />
+    <NavigationProperty Name="Ingredients" Relationship="RecipeOrganizerModel.FK_Ingredients_Recipes" FromRole="Recipes" ToRole="Ingredients" />
+  </EntityType>
+  <Association Name="FK_Ingredients_Recipes">
+    <End Role="Recipes" Type="RecipeOrganizerModel.Recipe" Multiplicity="1" />
+    <End Role="Ingredients" Type="RecipeOrganizerModel.Ingredient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Recipes">
+        <PropertyRef Name="RecipeID" />
+      </Principal>
+      <Dependent Role="Ingredients">
+        <PropertyRef Name="RecipeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

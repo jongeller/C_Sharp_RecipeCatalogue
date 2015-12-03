@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RecipeOrganizerModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="RecipeOrganizerModelStoreContainer">
+    <EntitySet Name="Ingredients" EntityType="RecipeOrganizerModel.Store.Ingredients" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Recipes" EntityType="RecipeOrganizerModel.Store.Recipes" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Ingredients_Recipes" Association="RecipeOrganizerModel.Store.FK_Ingredients_Recipes">
+      <End Role="Recipes" EntitySet="Recipes" />
+      <End Role="Ingredients" EntitySet="Ingredients" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Ingredients">
+    <Key>
+      <PropertyRef Name="IngredientID" />
+    </Key>
+    <Property Name="IngredientID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Ingredient" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="RecipeID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Recipes">
+    <Key>
+      <PropertyRef Name="RecipeID" />
+    </Key>
+    <Property Name="RecipeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="Yield" Type="char" MaxLength="15" />
+    <Property Name="ServingSize" Type="varchar" MaxLength="200" />
+    <Property Name="Directions" Type="varchar(max)" Nullable="false" />
+    <Property Name="Comment" Type="varchar" MaxLength="500" />
+    <Property Name="RecipeType" Type="char" Nullable="false" MaxLength="12" />
+  </EntityType>
+  <Association Name="FK_Ingredients_Recipes">
+    <End Role="Recipes" Type="RecipeOrganizerModel.Store.Recipes" Multiplicity="1" />
+    <End Role="Ingredients" Type="RecipeOrganizerModel.Store.Ingredients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Recipes">
+        <PropertyRef Name="RecipeID" />
+      </Principal>
+      <Dependent Role="Ingredients">
+        <PropertyRef Name="RecipeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

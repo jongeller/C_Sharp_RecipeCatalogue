@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="RecipeOrganizerModelStoreContainer" CdmEntityContainer="RecipeOrganizerEntities">
+    <EntitySetMapping Name="Ingredients">
+      <EntityTypeMapping TypeName="RecipeOrganizerModel.Ingredient">
+        <MappingFragment StoreEntitySet="Ingredients">
+          <ScalarProperty Name="IngredientID" ColumnName="IngredientID" />
+          <ScalarProperty Name="Ingredient1" ColumnName="Ingredient" />
+          <ScalarProperty Name="RecipeID" ColumnName="RecipeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Recipes">
+      <EntityTypeMapping TypeName="RecipeOrganizerModel.Recipe">
+        <MappingFragment StoreEntitySet="Recipes">
+          <ScalarProperty Name="RecipeID" ColumnName="RecipeID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Yield" ColumnName="Yield" />
+          <ScalarProperty Name="ServingSize" ColumnName="ServingSize" />
+          <ScalarProperty Name="Directions" ColumnName="Directions" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="RecipeType" ColumnName="RecipeType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
