@@ -20,8 +20,10 @@
 
         <ListBox x:Name="commentListBox" HorizontalAlignment="Left" Height="58" Margin="345,213,0,0" VerticalAlignment="Top" Width="443" ItemsSource="{Binding}" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.CanContentScroll="False" />
         <Button x:Name="resetButton" Content="Refresh" HorizontalAlignment="Left" Margin="23,280,0,0" VerticalAlignment="Top" Background="White" Width="75" FontWeight="Bold" Click="resetButton_Click" Grid.Row="1" Height="32"/>
+        <Button x:Name="addButton" Content="Add Recipe" HorizontalAlignment="Left" Margin="133,280,0,0" VerticalAlignment="Top" Background="White" Width="75" FontWeight="Bold" Click="addButton_Click" Grid.Row="1" Height="32"/>
         <Button x:Name="exitButton" Content="Exit" HorizontalAlignment="Left" Margin="713,280,0,0" VerticalAlignment="Top" Background="White" Width="75" FontWeight="Bold" Click="exitButton_Click" Grid.Row="1" Height="32"/>
         <Button Content="Search" HorizontalAlignment="Left" Margin="248,277,0,0" Grid.Row="1" VerticalAlignment="Top" Background="White" Width="75" Height="35" FontWeight="Bold" Click="SearchButton_Click"/>
+        <Button x:Name="editButton" Content="Edit Recipe" HorizontalAlignment="Left" Margin="609,280,0,0" VerticalAlignment="Top" Background="White" Width="75" FontWeight="Bold" Click="editButton_Click" Grid.Row="1" IsEnabled="False" Height="32"/>
     </Grid>
 </Window>
 

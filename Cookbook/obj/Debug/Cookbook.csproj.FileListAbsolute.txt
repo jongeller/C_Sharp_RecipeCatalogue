@@ -167,3 +167,24 @@ E:\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\Cookbook.pdb
 E:\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\EntityFramework.dll
 E:\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\ToStringSearch.dll
 E:\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\EntityFramework.xml
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\Cookbook.exe.config
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\Cookbook.exe
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\Cookbook.pdb
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\Cookbook.csprojResolveAssemblyReference.cache
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\MainWindow.baml
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\SearchBox.baml
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\AddEditRecipies.g.cs
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\MainWindow.g.cs
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\SearchBox.g.cs
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\App.g.cs
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\Cookbook_MarkupCompile.cache
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\Cookbook_MarkupCompile.lref
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\Cookbook.exe
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\Cookbook.pdb
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\EntityFramework.dll
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\ToStringSearch.dll
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\bin\Debug\EntityFramework.xml
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\AddEditRecipies.baml
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\Cookbook.g.resources
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\Cookbook.Properties.Resources.resources
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\Cookbook\obj\Debug\Cookbook.csproj.GenerateResource.Cache

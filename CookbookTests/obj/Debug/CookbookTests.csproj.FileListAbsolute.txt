@@ -58,3 +58,16 @@ E:\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.csprojResolveAs
 E:\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.dll
 E:\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.pdb
 E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\ToStringSearch.dll
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\CookbookTests.dll
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\CookbookTests.pdb
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Cookbook.exe
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\nunit.framework.dll
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\EntityFramework.dll
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\ToStringSearch.dll
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Cookbook.pdb
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\EntityFramework.xml
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.csprojResolveAssemblyReference.cache
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.dll
+D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.pdb

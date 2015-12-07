@@ -59,6 +59,9 @@ namespace Cookbook
         {
             if (recipeList.SelectedIndex > -1)
             {
+                //Added to support edit recipe
+                editButton.IsEnabled = true;
+                ////
 
                 string selectedRecipeTitle = string.Empty;
 
@@ -112,10 +115,10 @@ namespace Cookbook
 
             iterateList = (from L in RC.Items orderby L.RecipeType, L.DisplayTitle select L).ToList();
 
-            foreach (Recipe r in iterateList)
-            {
-                MessageBox.Show(r.DisplayTitle);
-            }
+            //foreach (Recipe r in iterateList)
+            //{
+            //    MessageBox.Show(r.DisplayTitle);
+            //}
         }
 
         //Freeze the big X
@@ -191,11 +194,62 @@ namespace Cookbook
             }
         }
 
-        private void LoadRecipes(List<Recipe> recipes)
+        //Added call options to support the select of added or updated recipe
+        private void LoadRecipes(List<Recipe> recipes, Recipe SelectedRecipe = null)
         {
             recipeList.DataContext = (from L in recipes orderby L.RecipeType, L.DisplayTitle select L.DisplayTitle).ToList();
+
+            //Added to support add/edit recipe
+            if (SelectedRecipe != null)
+            {
+                recipeList.SelectedItem = SelectedRecipe.DisplayTitle;
+            }
         }
 
+        //Added to support Add recipe
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditRecipies AddRecipe = new AddEditRecipies();
+            if (AddRecipe.ShowDialog() == true)
+            {
+                if (AddRecipe.DoWork)
+                {
+                    //Adds the recipe to the collection.
+                    RC.AddRecipe(AddRecipe.Recipe);
+
+                    //Cleans the form.
+                    LoadRecipes(RC.Items, AddRecipe.Recipe);
+                }
+                else
+                {
+                    MessageBox.Show("Cancelled adding a new recipe.", "Cookbook Add Recipe");
+                }
+            }
+
+        }
+
+        private void editButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<Recipe> SelectedRecipe = (from R in RC where R.DisplayTitle == (string)recipeList.SelectedValue select R).ToList();
+
+            AddEditRecipies EditRecipe = new AddEditRecipies(SelectedRecipe[0]);
+
+            if (EditRecipe.ShowDialog() == true)
+            {
+                if (EditRecipe.DoWork)
+                {
+                    //Updated the recipe to the collection.
+                    RC.UpdateRecipe(EditRecipe.Recipe,recipeList.SelectedIndex);
+
+                    //Cleans the form.
+                    LoadRecipes(RC.Items, EditRecipe.Recipe);
+                }
+                else
+                {
+                    MessageBox.Show("Cancelled adding a new recipe.", "Cookbook Add Recipe");
+                }
+            }
+        }
     }
 
 }

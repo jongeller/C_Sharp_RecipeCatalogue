@@ -64,6 +64,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddEditRecipies.xaml.cs">
+      <DependentUpon>AddEditRecipies.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ingredient.cs">
       <DependentUpon>RecipeOrganizer.tt</DependentUpon>
     </Compile>
@@ -91,6 +94,10 @@
     <Compile Include="SearchBox.xaml.cs">
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddEditRecipies.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
