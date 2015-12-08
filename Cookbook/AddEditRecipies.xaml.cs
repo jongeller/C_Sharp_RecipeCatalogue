@@ -27,7 +27,7 @@ namespace Cookbook
 
         //This bool is used to see if the user clcked cancel or submit. If cancelled, this bool will remain false;
         public bool DoWork { get; set; }
-        
+
 
         /// <summary>
         /// This window constructor will define the form for add new or update existing.
@@ -35,7 +35,6 @@ namespace Cookbook
         /// <param name="RecipeToUpdate">If there is a recipe passed in, the form will assume it needs to edit, not add a new recipe.</param>
         public AddEditRecipies(Recipe RecipeToUpdate = null)
         {
-            InitializeComponent();
 
             //Check to see if recipe has been passed in.
             if (RecipeToUpdate == null)
@@ -45,7 +44,6 @@ namespace Cookbook
                 //Assign the persistant recipe a new recipe object on the heap.
                 WorkingRecipe = new Recipe();
 
-                LoadForm();
             }
             else
             {
@@ -53,31 +51,17 @@ namespace Cookbook
 
                 //Assign the persistant recipe the passed in recipe object on the heap.
                 WorkingRecipe = RecipeToUpdate;
-
-                //Call method to assign all widow fields to the values.
-                LoadForm();
             }
-        }
 
-        /// <summary>
-        /// Set the form if an existing recipe is passed into it.
-        /// </summary>
-        /// <param name="recipeToUpdate">The recipe to populate the form with.</param>
-        private void LoadForm()
-        {
-            //Assign text box fields
-            tbRecipeTitle.Text = WorkingRecipe.Title;
-            tbRecipeType.Text = WorkingRecipe.RecipeType;
-            tbRecipeYeild.Text = WorkingRecipe.Yield;
-            tbRecipeServingSize.Text = WorkingRecipe.ServingSize;
-            tbDirections.Text = WorkingRecipe.Directions;
-            tbComment.Text = WorkingRecipe.Comment;
-            
-            //Set ingredients to listbox
-            lstbxIngredients.DataContext = (from I in WorkingRecipe.Ingredients orderby I.Ingredient1 select I).ToList();
+            InitializeComponent();
 
-            //focuses the form on the submit button, so if anyone hits enter, it will submit the recipe.
-            btnSubmit.Focus();
+            tbRecipeTitle.DataContext = this;
+            tbRecipeServingSize.DataContext = this;
+            tbRecipeType.DataContext = this;
+            tbRecipeYeild.DataContext = this;
+            tbDirections.DataContext = this;
+            tbComment.DataContext = this;
+            lstbxIngredients.DataContext = this;
         }
 
         /// <summary>
@@ -105,10 +89,12 @@ namespace Cookbook
         /// </summary>
         private void submitClicked(object sender, RoutedEventArgs e)
         {
-            //exits the form with the bool set to indicate the recipe add or edit was complete
-            UpdateWorkingRecipe();
-            DoWork = true;
-            DialogResult = true;
+            if (RecipeValidation())
+            {
+                //exits the form with the bool set to indicate the recipe add or edit was complete
+                DoWork = true;
+                DialogResult = true;
+            }
         }
 
         /// <summary>
@@ -150,42 +136,75 @@ namespace Cookbook
 
         private void SubmitIngredientClicked(object sender, RoutedEventArgs e)
         {
-            btnSubmitIngredient.IsEnabled = false;
-            btnEditIngredient.IsEnabled = false;
-            btnAddIngredient.IsEnabled = true;
-            tbIngredient.IsEnabled = true;
-            
-            if(NewIngredient)
+            if (IngredientValidation())
             {
-                Ingredient newIngredientData = new Ingredient();
-                newIngredientData.Ingredient1 = tbIngredient.Text;
-                newIngredientData.RecipeID = WorkingRecipe.RecipeID;
-                newIngredientData.Recipe = WorkingRecipe;
-                WorkingRecipe.Ingredients.Add(newIngredientData);
+                btnSubmitIngredient.IsEnabled = false;
+                btnEditIngredient.IsEnabled = false;
+                btnAddIngredient.IsEnabled = true;
+                tbIngredient.IsEnabled = true;
+
+                if (NewIngredient)
+                {
+                    Ingredient newIngredientData = new Ingredient();
+                    newIngredientData.Ingredient1 = tbIngredient.Text;
+                    newIngredientData.RecipeID = WorkingRecipe.RecipeID;
+                    newIngredientData.Recipe = WorkingRecipe;
+                    WorkingRecipe.Ingredients.Add(newIngredientData);
+                }
+                else
+                {
+                    //Update the ingredient that is bound to the collection.
+                    (lstbxIngredients.SelectedItem as Ingredient).Ingredient1 = tbIngredient.Text;
+                }
+
+                lstbxIngredients.Items.Refresh();
+
+                tbIngredient.Text = string.Empty;
+                tbIngredient.BorderBrush = lstbxIngredients.BorderBrush;
             }
-            else
-            {
-                //Update the ingredient that is bound to the collection.
-                (lstbxIngredients.SelectedItem as Ingredient).Ingredient1 = tbIngredient.Text;
-            }
-
-            tbIngredient.Text = string.Empty;
-            tbIngredient.BorderBrush = tbComment.BorderBrush;
-
-            UpdateWorkingRecipe();
-
-            LoadForm();
         }
 
-        private void UpdateWorkingRecipe()
+        private bool IngredientValidation()
         {
-            WorkingRecipe.Title = tbRecipeTitle.Text;
-            WorkingRecipe.RecipeType = tbRecipeType.Text;
-            WorkingRecipe.ServingSize = tbRecipeServingSize.Text;
-            WorkingRecipe.Yield = tbRecipeYeild.Text;
-            WorkingRecipe.Comment = tbComment.Text;
-            WorkingRecipe.Directions = tbDirections.Text;
+            if(string.IsNullOrEmpty(tbIngredient.Text))
+            {
+                lblValidation.Content = "Ingredient cannot be empty.";
+                tbIngredient.BorderBrush = Brushes.Red;
+                lblValidation.Visibility = Visibility.Visible;
+                return false;
+            }
+
+            tbIngredient.BorderBrush = lstbxIngredients.BorderBrush;
+            lblValidation.Visibility = Visibility.Hidden;
+            return true;
         }
+
+        private bool RecipeValidation()
+        {
+            List<TextBox> FieldsToValidate = new List<TextBox>();
+            FieldsToValidate.Add(tbRecipeTitle);
+            FieldsToValidate.Add(tbRecipeType);
+            FieldsToValidate.Add(tbRecipeYeild);
+            FieldsToValidate.Add(tbRecipeServingSize);
+            FieldsToValidate.Add(tbDirections);
+            FieldsToValidate.Add(tbComment);
+
+            foreach(TextBox tb in FieldsToValidate)
+            {
+                if (string.IsNullOrEmpty(tb.Text))
+                {
+                    lblValidation.Content = "Field cannot be empty.";
+                    tb.BorderBrush = Brushes.Red;
+                    lblValidation.Visibility = Visibility.Visible;
+                    return false;
+                }
+                tb.BorderBrush = lstbxIngredients.BorderBrush;
+            }
+
+            lblValidation.Visibility = Visibility.Hidden;
+            return true;
+        }
+    
 
         /// <summary>
         /// The added or updated recipe returned by the form.
@@ -194,6 +213,46 @@ namespace Cookbook
         {
             get { return WorkingRecipe; }
         }
-            
+
+        public ICollection<Ingredient> RecipeIngredients
+        {
+            get { return WorkingRecipe.Ingredients; }
+        }
+
+        public string RecipeTitle
+        {
+            get { return WorkingRecipe.Title; }
+            set { WorkingRecipe.Title = value; }
+        }
+
+        public string RecipeType
+        {
+            get { return WorkingRecipe.RecipeType; }
+            set { WorkingRecipe.RecipeType = value; }
+        }
+
+        public string RecipeDirections
+        {
+            get { return WorkingRecipe.Directions; }
+            set { WorkingRecipe.Directions = value; }
+        }
+
+        public string RecipeComment
+        {
+            get { return WorkingRecipe.Comment; }
+            set { WorkingRecipe.Comment = value; }
+        }
+
+        public string RecipeServingSize
+        {
+            get { return WorkingRecipe.ServingSize; }
+            set { WorkingRecipe.ServingSize = value; }
+        }
+
+        public string RecipeYield
+        {
+            get { return WorkingRecipe.Yield; }
+            set { WorkingRecipe.Yield = value; }
+        }
     }
 }
