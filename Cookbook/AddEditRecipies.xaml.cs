@@ -89,6 +89,7 @@ namespace Cookbook
         /// </summary>
         private void submitClicked(object sender, RoutedEventArgs e)
         {
+
             if (RecipeValidation())
             {
                 //exits the form with the bool set to indicate the recipe add or edit was complete
