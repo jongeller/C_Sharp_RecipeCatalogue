@@ -25,6 +25,30 @@ namespace Cookbook
             searchTextBox.Focus();
         }
 
+        public bool MatchAllTerms 
+        { 
+            get
+            { 
+                return (bool)matchAllRadioButton.IsChecked; 
+            }
+        }
+
+        public bool CaseSensitive 
+        {
+            get
+            {
+                return (bool)caseSensitiveCheckBox.IsChecked;
+            } 
+        }
+
+        public bool SearchAllRecipes 
+        { 
+            get
+            {
+                return (bool)searchAllRadioButton.IsChecked;
+            }
+        }
+
         public String SearchString
         {
             get { return searchTextBox.Text; }
@@ -36,6 +60,7 @@ namespace Cookbook
             DialogResult = true;
         }
 
+        
      
     }
 }

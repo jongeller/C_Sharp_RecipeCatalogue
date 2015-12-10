@@ -47,6 +47,8 @@ namespace Cookbook
         {
             InitializeComponent();
             mainWindow.Title = titleLabel.Content.ToString();
+            LoadRecipes(RC.Items);
+            ToggleCover(true);
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -57,69 +59,94 @@ namespace Cookbook
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            UpdateUI();
+        }
+
+
+        private void UpdateUI()
+        {
             if (recipeList.SelectedIndex > -1)
             {
-                //Added to support edit recipe
-                editButton.IsEnabled = true;
-                ////
+                //Hide cover image
+                ToggleCover(false);
 
+                //Get the currently selected recipe data
                 string selectedRecipeTitle = string.Empty;
-
                 selectedRecipeTitle = recipeList.SelectedItem as string;
+                List<Recipe> selectedRecipes = (from R in RC.Items where R.DisplayTitle == selectedRecipeTitle select R).ToList();
+                Recipe selectedRecipe = selectedRecipes[0];
 
-                ingrediantListBox.DataContext = (from R in RC.Items from I in R.Ingredients where R.DisplayTitle == selectedRecipeTitle && R.RecipeID == I.RecipeID select I).ToList();
+                //Update the other controls with data from the selected recipe
+                ingrediantListBox.DataContext = (from I in selectedRecipe.Ingredients where selectedRecipe.DisplayTitle == selectedRecipeTitle && selectedRecipe.RecipeID == I.RecipeID select I).ToList();
 
-                recipeStepListBox.DataContext = (from R in RC.Items where R.DisplayTitle == selectedRecipeTitle select R.Directions).ToList();
+                recipeStepTextBox.Text = selectedRecipe.Directions;
 
-                commentListBox.DataContext = (from R in RC.Items where R.DisplayTitle == selectedRecipeTitle select R.Comment).ToList();
+                yieldTextBox.Text = "";
+                servingTextBox.Text = "";
+                List<String> stringList = new List<string>();
+
+
+                if (selectedRecipe.Yield != null)
+                {
+                    yieldTextBox.Text = "Yield: " + selectedRecipe.Yield;
+                }
+                if (selectedRecipe.ServingSize != null)
+                {
+                    servingTextBox.Text = "Size: " + selectedRecipe.ServingSize;
+                }
+
+                commentTextBox.Text = selectedRecipe.Comment;
+
 
                 //THIS MAKES A HARD-CODED ASSUMPTION, BEWARE!!!!!
                 //It only works if there is only 1 item selected from the recipe list.
-                List<Recipe> selectedRecipes = (from R in RC.Items where R.DisplayTitle == selectedRecipeTitle select R).ToList();
-                descLabel.Content = selectedRecipes[0].Title;
-                mainWindow.Title = selectedRecipes[0].Title;
+                descLabel.Content = selectedRecipe.Title;
+                mainWindow.Title = selectedRecipe.Title;
                 ///Ends hard coded assumption.
                 ///
 
             }
             else
             {
-                List<string> comments = new List<string>();
-                comments.Add("Form has been reset");
+                //Show cover image if no recipe is selected
+                ToggleCover(true);
+            }
 
-                commentListBox.DataContext = comments;
+            //Activate the edit button if an item is selected
+            if (recipeList.SelectedIndex != -1)
+            {
+                editButton.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                editButton.Visibility = System.Windows.Visibility.Hidden;
             }
         }
         
         private void resetButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            //For Debug and testing 
+            //MessageBox.Show("Width=" + mainWindow.ActualWidth.ToString());
+
+
             descLabel.Content = string.Empty;
             ingrediantListBox.DataContext = null;
-            recipeStepListBox.DataContext = null;
-            commentListBox.DataContext = null;
+
+            recipeStepTextBox.Text = "";
+            commentTextBox.Text = "";
+            yieldTextBox.Text = "";
+            servingTextBox.Text = "";
+
 
             mainWindow.Title = titleLabel.Content.ToString();
-            
+
             recipeList.SelectedIndex = -1;
+            HideMessageBox();
 
-
+            RC.FilteredItems = RC.Items;
             LoadRecipes(RC.Items);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadRecipes(RC.Items);
-
-            List<Recipe> iterateList = new List<Recipe>();
-
-            iterateList = (from L in RC.Items orderby L.RecipeType, L.DisplayTitle select L).ToList();
-
-            //foreach (Recipe r in iterateList)
-            //{
-            //    MessageBox.Show(r.DisplayTitle);
-            //}
-        }
 
         //Freeze the big X
         //Get the handle to the main window to intercept the WM_ClOSE event handler
@@ -168,88 +195,206 @@ namespace Cookbook
             //Initialize a list for the search results
             List<Recipe> srchResults = new List<Recipe>();
 
-            //Get the current list if items from the listbox
-            //List<Recipe> recipes = (from R in RC.Items select R).ToList();
-
-            //Display the search dialog
+            //Display the search dialog - Set the owner so it opens in the center of the main window
             SearchBox search = new SearchBox();
+            search.Owner = this;
 
             if (search.ShowDialog() == true)
             {
-                //Search for recipes that contain the search string
-                srchResults = searchObj.SearchForString(search.SearchString, RC.Items);
+                //Search the entire database
+                if (search.SearchAllRecipes)
+                {
+                    //Search for recipes that contain the search string
+                    srchResults = searchObj.SearchForString(search.SearchString, RC.Items, search.CaseSensitive, search.MatchAllTerms);
+                }
+                else //Search the filtered list
+                {
+                    if (messageText.Text == "No recipes were found.")
+                    {
+                        srchResults = null;
+                    }
+                    else
+                    {
+                        srchResults = searchObj.SearchForString(search.SearchString, RC.FilteredItems, search.CaseSensitive, search.MatchAllTerms);
+                    }
+                }
+
                 if (srchResults != null)
                 {
-                    //Update the listbox on the main window
-
+                    //Clear the controls on the main window
                     object o = new object();
                     RoutedEventArgs REA = new RoutedEventArgs();
                     resetButton_Click(o, REA);
-                    recipeList.DataContext = (from L in srchResults orderby L.RecipeType, L.DisplayTitle select L.DisplayTitle).ToList(); ;
+                    messageText.Text = "";
+
+                    //Update the filtered list with the search results
+                    RC.FilteredItems = srchResults;
+                    recipeList.DataContext = (from L in RC.FilteredItems orderby L.RecipeType, L.DisplayTitle select L.DisplayTitle).ToList(); ;
                 }
                 else
                 {
-                    MessageBox.Show("No recipes were found.", "Cookbook Search");
+                    ShowMessageBox("No recipes were found.");
                 }
             }
         }
 
-        //Added call options to support the select of added or updated recipe
-        private void LoadRecipes(List<Recipe> recipes, Recipe SelectedRecipe = null)
+        private void LoadRecipes(List<Recipe> recipes)
         {
             recipeList.DataContext = (from L in recipes orderby L.RecipeType, L.DisplayTitle select L.DisplayTitle).ToList();
+            List<string> tmp = new List<string>();
+            tmp.Add("All");
 
-            //Added to support add/edit recipe
-            if (SelectedRecipe != null)
+            foreach (Recipe r in recipes)
             {
-                recipeList.SelectedItem = SelectedRecipe.DisplayTitle;
+                if (!tmp.Contains(r.RecipeType)) tmp.Add(r.RecipeType);
             }
+            tmp.Sort();
+            filterCombo.DataContext = tmp; 
+            filterCombo.SelectedIndex = 0;
         }
 
-        //Added to support Add recipe
-        private void addButton_Click(object sender, RoutedEventArgs e)
+        private void FilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AddEditRecipies AddRecipe = new AddEditRecipies();
-            if (AddRecipe.ShowDialog() == true)
+            if (filterCombo.SelectedIndex != -1)
             {
-                if (AddRecipe.DoWork)
+                if (filterCombo.SelectedItem.ToString() == "All")
                 {
-                    //Adds the recipe to the collection.
-                    RC.AddRecipe(AddRecipe.Recipe);
-
-                    //Cleans the form.
-                    LoadRecipes(RC.Items, AddRecipe.Recipe);
+                    recipeList.DataContext = (from L in RC.FilteredItems orderby L.DisplayTitle select L.DisplayTitle).ToList();
                 }
                 else
                 {
-                    MessageBox.Show("Cancelled adding a new recipe.", "Cookbook Add Recipe");
+                    recipeList.DataContext = (from L in RC.FilteredItems where L.RecipeType == filterCombo.SelectedItem.ToString() orderby L.DisplayTitle select L.DisplayTitle).ToList();
                 }
             }
-
         }
 
-        private void editButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Scales the fontsize for the two title labels based on size of the mainWindow.
+        /// This makes it possible for the entire recipe title to be visible regardless of window resize
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            List<Recipe> SelectedRecipe = (from R in RC where R.DisplayTitle == (string)recipeList.SelectedValue select R).ToList();
-
-            AddEditRecipies EditRecipe = new AddEditRecipies(SelectedRecipe[0]);
-
-            if (EditRecipe.ShowDialog() == true)
+            double controlSize = mainWindow.ActualWidth;
+            if (controlSize>825)
             {
-                if (EditRecipe.DoWork)
-                {
-                    //Updated the recipe to the collection.
-                    RC.UpdateRecipe(EditRecipe.Recipe,recipeList.SelectedIndex);
+                descLabel.FontSize = 28;
+                titleLabel.FontSize = 38;
+            }
+            else if ((controlSize > 690) && (controlSize <= 825))
+            {
+                descLabel.FontSize = 26;
+                titleLabel.FontSize = 38;
+            }
+            else if ((controlSize > 560) && (controlSize <= 690))
+            {
+                descLabel.FontSize = 24;
+                titleLabel.FontSize = 38;
+            }
+            else if (controlSize <= 560)
+            {
+                descLabel.FontSize = 22;
+                titleLabel.FontSize = 38;
+            }
+        }
 
-                    //Cleans the form.
-                    LoadRecipes(RC.Items, EditRecipe.Recipe);
-                }
-                else
+        /// <summary>
+        /// Toggles the cover image on and off
+        /// </summary>
+        public void ToggleCover(bool makeVisible)
+        {
+            if (makeVisible)
+            {
+                coverImage.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                coverImage.Visibility = Visibility.Hidden;
+            }
+        }
+
+        public void ShowMessageBox(string msg)
+        {
+            messageText.Text = msg;
+            recipeList.Visibility = Visibility.Hidden;
+            messageText.Visibility = Visibility.Visible;
+        }
+
+        public void HideMessageBox()
+        {
+            recipeList.Visibility = Visibility.Visible;
+            messageText.Visibility = Visibility.Hidden;
+        }
+
+        private void testButton_Click(object sender, RoutedEventArgs e)
+        {
+            //ShowMessageBox("No recipes were found.");
+            //MessageBox.Show("Text=" + filterCombo.Text);
+
+            //AddEditRecipies addRecipeDialog = new AddEditRecipies();
+            //addRecipeDialog.ShowDialog();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Open dialog with null value to add new recipe
+            AddEditRecipies addRecipeDialog = new AddEditRecipies(null);
+            CancelAndConfirm confirmDialog = new CancelAndConfirm();
+
+            addRecipeDialog.Owner = this;
+            confirmDialog.Owner = this;
+
+            //if edits were made...            
+            if ((bool)addRecipeDialog.ShowDialog())
+            {
+                if ((bool)confirmDialog.ShowDialog())
                 {
-                    MessageBox.Show("Cancelled adding a new recipe.", "Cookbook Add Recipe");
+                    //Update recipe in database
+                    RC.AddRecipe(addRecipeDialog.Recipe);
+
+
+                    //update displayed list of recipes
+                    LoadRecipes(RC.FilteredItems);
+
+                    //descLabel.Content=editRecipeDialog.Recipe.Title;
+                    recipeList.SelectedIndex = -1;
+                    UpdateUI();
                 }
             }
         }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            int selectIndex = recipeList.SelectedIndex;
+
+            //Open dialog and pass recipe to be updated
+            AddEditRecipies editRecipeDialog = new AddEditRecipies(RC[recipeList.SelectedValue.ToString()]);
+            CancelAndConfirm confirmDialog = new CancelAndConfirm();
+            editRecipeDialog.Owner = this;
+            confirmDialog.Owner = this;
+
+            //if edits were made...            
+            if ((bool)editRecipeDialog.ShowDialog())
+            {
+                if ((bool)confirmDialog.ShowDialog())
+                {
+                    //Update recipe in database
+                    RC.UpdateRecipe(editRecipeDialog.Recipe);
+
+
+                    //update displayed list of recipes
+                    LoadRecipes(RC.FilteredItems);
+
+                    //descLabel.Content=editRecipeDialog.Recipe.Title;
+                    recipeList.SelectedIndex = selectIndex;
+                    UpdateUI();
+                }
+            }
+
+        }
+
+        
     }
 
 }

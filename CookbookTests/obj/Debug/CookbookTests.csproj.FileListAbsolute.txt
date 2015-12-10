@@ -45,29 +45,16 @@ S:\_ctorkko_C4_8366_End12092015\Team BackRow - KEEP OUT\Working\CookbookTests\bi
 S:\_ctorkko_C4_8366_End12092015\Team BackRow - KEEP OUT\Working\CookbookTests\obj\Debug\CookbookTests.csprojResolveAssemblyReference.cache
 S:\_ctorkko_C4_8366_End12092015\Team BackRow - KEEP OUT\Working\CookbookTests\obj\Debug\CookbookTests.dll
 S:\_ctorkko_C4_8366_End12092015\Team BackRow - KEEP OUT\Working\CookbookTests\obj\Debug\CookbookTests.pdb
-E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\CookbookTests.dll
-E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\CookbookTests.pdb
-E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Cookbook.exe
-E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\nunit.framework.dll
-E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\EntityFramework.dll
-E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Cookbook.pdb
-E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
-E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\EntityFramework.xml
-E:\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.csprojResolveAssemblyReference.cache
-E:\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.dll
-E:\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.pdb
-E:\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\ToStringSearch.dll
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\CookbookTests.dll
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\CookbookTests.pdb
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Cookbook.exe
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\nunit.framework.dll
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\EntityFramework.dll
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\ToStringSearch.dll
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Cookbook.pdb
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\bin\Debug\EntityFramework.xml
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.csprojResolveAssemblyReference.cache
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.dll
-D:\GitHub Repos\C_Sharp_RecipeCatalogue\CookbookTests\obj\Debug\CookbookTests.pdb
+C:\Data\School\C-Sharp4\Team BackRow - KEEP OUT\DaveBackup\Working\CookbookTests\bin\Debug\CookbookTests.dll
+C:\Data\School\C-Sharp4\Team BackRow - KEEP OUT\DaveBackup\Working\CookbookTests\bin\Debug\CookbookTests.pdb
+C:\Data\School\C-Sharp4\Team BackRow - KEEP OUT\DaveBackup\Working\CookbookTests\bin\Debug\Cookbook.exe
+C:\Data\School\C-Sharp4\Team BackRow - KEEP OUT\DaveBackup\Working\CookbookTests\bin\Debug\nunit.framework.dll
+C:\Data\School\C-Sharp4\Team BackRow - KEEP OUT\DaveBackup\Working\CookbookTests\bin\Debug\EntityFramework.dll
+C:\Data\School\C-Sharp4\Team BackRow - KEEP OUT\DaveBackup\Working\CookbookTests\bin\Debug\Cookbook.pdb
+C:\Data\School\C-Sharp4\Team BackRow - KEEP OUT\DaveBackup\Working\CookbookTests\bin\Debug\EntityFramework.xml
+C:\Data\School\C-Sharp4\Team BackRow - KEEP OUT\DaveBackup\Working\CookbookTests\obj\Debug\CookbookTests.csprojResolveAssemblyReference.cache
+C:\Data\School\C-Sharp4\Team BackRow - KEEP OUT\DaveBackup\Working\CookbookTests\obj\Debug\CookbookTests.dll
+C:\Data\School\C-Sharp4\Team BackRow - KEEP OUT\DaveBackup\Working\CookbookTests\obj\Debug\CookbookTests.pdb
+C:\Data\School\CSharp4\CookbookTests\obj\Debug\CookbookTests.csprojResolveAssemblyReference.cache
+C:\Data\School\CSharp4\CookbookTests\obj\Debug\CookbookTests.dll
+C:\Data\School\CSharp4\CookbookTests\obj\Debug\CookbookTests.pdb

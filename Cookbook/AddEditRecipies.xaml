@@ -5,29 +5,195 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cookbook"
         mc:Ignorable="d"
-        Height="400" Width="800">
+        Height="430" Width="800" MinHeight="300" MinWidth="600" Background="Honeydew" WindowStartupLocation="CenterOwner">
+    <!-- Define style for buttons with rounded corners -->
+    <Window.Resources>
+        <Style x:Key="RoundCorner" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <!-- Define button in normal state -->
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" CornerRadius="5" BorderBrush="Gray" BorderThickness="1">
+                                <Border.Background>
+                                    <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                        <RadialGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                                <TranslateTransform X="0.02" Y="0.3"/>
+                                            </TransformGroup>
+                                        </RadialGradientBrush.RelativeTransform>
+                                        <GradientStop Offset="1" Color="White"/>
+                                        <GradientStop Offset="0.3" Color="HoneyDew"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="Normal"></ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <!-- Define button in pressed state -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                            <RadialGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                                    <TranslateTransform X="0.02" Y="0.3"/>
+                                                </TransformGroup>
+                                            </RadialGradientBrush.RelativeTransform>
+                                            <GradientStop Color="White" Offset="1"/>
+                                            <GradientStop Color="DarkGray" Offset="0.3"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <Label x:Name="lblRecipeTitle" Content="Recipe Title" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbRecipeTitle" HorizontalAlignment="Left" Height="23" Margin="86,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="380" Text="{Binding RecipeTitle}" />
-        <Label x:Name="lblRecipeType" Content="Recipe Type" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbRecipeType" HorizontalAlignment="Left" Height="23" Margin="86,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Text="{Binding RecipeType}"/>
-        <Label x:Name="lblRecipeYield" Content="Recipe Yeild" HorizontalAlignment="Left" Margin="240,44,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbRecipeYeild" HorizontalAlignment="Left" Height="23" Margin="316,47,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="60" Text="{Binding RecipeYeild}"/>
-        <Label x:Name="lblRecipeServingSize" Content="Serving Size" HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbRecipeServingSize" HorizontalAlignment="Left" Height="23" Margin="86,77,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="380" Text="{Binding RecipeServingSize}"/>
-        <Label x:Name="lblDirections" Content="Directions" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbDirections" HorizontalAlignment="Left" Height="100" Margin="11,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="455" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible" Text="{Binding RecipeDirections}" />
-        <Label x:Name="lblComment" Content="Comments" HorizontalAlignment="Left" Margin="10,231,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbComment" HorizontalAlignment="Left" Height="50" Margin="11,257,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="455" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible" Text="{Binding RecipeComment}" />
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*" MinWidth="75"/>
+            <ColumnDefinition Width="10*" MinWidth="75"/>
+            <ColumnDefinition Width="10*" MinWidth="75"/>
+            <ColumnDefinition Width="30*" MinWidth="75"/>
+            <ColumnDefinition Width="20*" MinWidth="150"/>
+            <ColumnDefinition Width="20*" MinWidth="150"/>
+        </Grid.ColumnDefinitions>
 
-        <Label x:Name="lblIngredients" Content="Ingredients" HorizontalAlignment="Left" Margin="480,14,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btnAddIngredient" Content="Add" HorizontalAlignment="Left" Margin="555,17,0,0" VerticalAlignment="Top" Width="45" Click="AddIngredientClicked"/>
-        <Button x:Name="btnEditIngredient" Content="Edit" HorizontalAlignment="Left" Margin="610,17,0,0" VerticalAlignment="Top" Width="45" IsEnabled="False" Click="EditIngredientClicked" />
-        <Button x:Name="btnSubmitIngredient" Content="Submit" HorizontalAlignment="Left" Margin="665,17,0,0" VerticalAlignment="Top" Width="45" IsEnabled="False" Click="SubmitIngredientClicked"/>
-        <TextBox x:Name="tbIngredient" HorizontalAlignment="Left" Height="23" Margin="480,47,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="275" IsEnabled="False" />
-        <ListBox x:Name="lstbxIngredients" Margin="480,74,37,30" ItemsSource="{Binding RecipeIngredients}" SelectionChanged="IngredientSelected" />
-        <Button x:Name="btnSubmit" Content="Submit" HorizontalAlignment="Left" Margin="60,327,0,0" VerticalAlignment="Top" Width="75" Click="submitClicked" />
-        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="150,327,0,0" VerticalAlignment="Top" Width="75" Click="cancelClicked"/>
-        <Label x:Name="lblValidation" Content="Validation" HorizontalAlignment="Left" Margin="240,324,0,0" VerticalAlignment="Top" Width="226" Background="White" Foreground="Red" Visibility="Hidden"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="17*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="17*"/>
+            <RowDefinition x:Name="testRow" Height="6*"/>
+        </Grid.RowDefinitions>
+        
+<!-- Left half of dialog -->
+        <Label x:Name="lblRecipeTitle" Content="Recipe Title" Margin="5,0,0,-5" Width="70"
+               Grid.Column="0" Grid.Row="0" 
+               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <TextBox x:Name="tbRecipeTitle" Margin="5,0,5,0" Height="23" 
+                 Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3"
+                 VerticalAlignment="Center"  
+                 TextWrapping="Wrap" Text="{Binding RecipeTitle}" />
+        
+        <Label x:Name="lblRecipeType" Content="Recipe Type" Margin="5,0,0,-5"
+               Grid.Column="0" Grid.Row="1"
+               HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+
+        <TextBox x:Name="tbRecipeType" Margin="5,0,5,0" Height="23" 
+               Grid.Column="1" Grid.Row="1"
+               TextWrapping="Wrap" Text="{Binding RecipeType}"/>
+        
+        <Label x:Name="lblRecipeYield" Content="Recipe Yield" Margin="5,0,0,-5"
+               Grid.Column="0" Grid.Row="2"
+               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <TextBox x:Name="tbRecipeYield" Margin="5,0,5,0"  Height="23" 
+                 Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"
+                 VerticalAlignment="Center" 
+                 TextWrapping="Wrap" Text="{Binding RecipeYield}"/>
+        
+        <Label x:Name="lblRecipeServingSize" Content="Serving Size" Margin="5,0,0,-5" 
+               Grid.Column="2" Grid.Row="1"
+               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <TextBox x:Name="tbRecipeServingSize" Margin="5,5,5,-10"  
+               Grid.Column="3" Grid.Row="1" Grid.RowSpan="3"
+               TextWrapping="Wrap"  AcceptsReturn="True"
+               ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
+               Text="{Binding RecipeServingSize}"/>
+        
+        <Label x:Name="lblDirections" Content="Directions" Margin="5,0,0,-5"
+               Grid.Column="0" Grid.Row="4"
+               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        
+        <TextBox x:Name="tbDirections" Margin="5,0,5,0" 
+                 Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4"
+                 VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True"
+                 ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                 Text="{Binding RecipeDirections}" />
+        
+        <Label x:Name="lblComment" Content="Comments" Margin="5,0,0,-5" 
+               Grid.Column="0" Grid.Row="6"
+               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        
+        <TextBox x:Name="tbComment" Margin="5,0,5,0" 
+                 Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="4"
+                 VerticalAlignment="Stretch" TextWrapping="Wrap"  AcceptsReturn="True"
+                 ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                 Text="{Binding RecipeComment}" />
+
+        <Button x:Name="btnSubmit" Content="Submit" Margin="5,0,0,0"  Width="55"
+                Grid.Column="0" Grid.Row="8"
+                HorizontalAlignment="Left" VerticalAlignment="Center" 
+                Style="{DynamicResource RoundCorner}"
+                Click="submitClicked" />
+
+        <Button x:Name="btnCancel" Content="Cancel" Margin="5,0,0,0"  Width="55"
+                Grid.Column="1" Grid.Row="8"
+                HorizontalAlignment="Right" VerticalAlignment="Center" 
+                Style="{DynamicResource RoundCorner}"
+                Click="cancelClicked"/>
+        
+<!-- Right half of dialog -->
+        <Label x:Name="lblIngredients" Content="Ingredients" Margin="5,0,0,-5" 
+               Grid.Column="4" Grid.Row="0"
+               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <Button x:Name="btnAddIngredient" Content="Add"  Margin="0,0,5,0"  Width="45"
+                Grid.Column="4" Grid.Row="0"
+                HorizontalAlignment="Right" VerticalAlignment="Center" 
+                Style="{DynamicResource RoundCorner}"
+                Click="AddIngredientClicked"/>
+
+        <Button x:Name="btnEditIngredient" Content="Edit" Margin="5,0,0,0"  Width="45" 
+                Grid.Column="5" Grid.Row="0"
+                HorizontalAlignment="Left" VerticalAlignment="Center" 
+                IsEnabled="False" 
+                Style="{DynamicResource RoundCorner}"
+                Click="EditIngredientClicked" />
+
+        <Button x:Name="btnSubmitIngredient" Content="Submit" Margin="0,0,5,0"  Width="45"
+                Grid.Column="5" Grid.Row="0"
+                HorizontalAlignment="Right" VerticalAlignment="Center" 
+                IsEnabled="False" 
+                Style="{DynamicResource RoundCorner}"
+                Click="SubmitIngredientClicked"/>
+
+        <TextBox x:Name="tbIngredient" Margin="5,5,5,0" Height="23"
+                 Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2"
+                 VerticalAlignment="Top"  
+                 TextWrapping="Wrap" IsEnabled="False" />
+        
+        <ListBox x:Name="lstbxIngredients" Margin="5,0,5,0" 
+                 Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="6"
+                 ItemsSource="{Binding RecipeIngredients}" 
+                 SelectionChanged="IngredientSelected" />
+        
+<!-- REMINDER Set below to Hidden -->
+        <Label x:Name="lblValidation" Content="Validation" Margin="5,0,5,0"  
+               Grid.Column="2" Grid.Row="8" Grid.ColumnSpan="2"
+               VerticalAlignment="Center" HorizontalContentAlignment="Center"
+               Foreground="Red" Visibility="Hidden"/>
     </Grid>
 </Window>

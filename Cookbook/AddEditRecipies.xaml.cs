@@ -50,7 +50,7 @@ namespace Cookbook
                 Title = "Update " + RecipeToUpdate.Title + " recipe.";
 
                 //Assign the persistant recipe the passed in recipe object on the heap.
-                WorkingRecipe = RecipeToUpdate;
+                WorkingRecipe = CopyRecipe(RecipeToUpdate);
             }
 
             InitializeComponent();
@@ -58,10 +58,41 @@ namespace Cookbook
             tbRecipeTitle.DataContext = this;
             tbRecipeServingSize.DataContext = this;
             tbRecipeType.DataContext = this;
-            tbRecipeYeild.DataContext = this;
+            tbRecipeYield.DataContext = this;
             tbDirections.DataContext = this;
             tbComment.DataContext = this;
             lstbxIngredients.DataContext = this;
+
+        }
+
+        /// <summary>
+        /// Creates a duplicate of a recipe object.
+        /// </summary>
+        /// <param name="sourceRecipe"></param>
+        /// <returns>Recipe object that is a copy of the source recipe</returns>
+        private Recipe CopyRecipe(Recipe sourceRecipe)
+        {
+            Recipe newRecipe = new Recipe();
+            //Duplicate all properties
+            newRecipe.Comment = sourceRecipe.Comment;
+            newRecipe.Directions = sourceRecipe.Directions;
+            newRecipe.RecipeID = sourceRecipe.RecipeID;
+            newRecipe.RecipeType = sourceRecipe.RecipeType;
+            newRecipe.ServingSize = sourceRecipe.ServingSize;
+            newRecipe.Title = sourceRecipe.Title;
+            newRecipe.Yield = sourceRecipe.Yield;
+
+            foreach (Ingredient i in sourceRecipe.Ingredients)
+            {
+                Ingredient newIng = new Ingredient();
+                newIng.IngredientID = i.IngredientID;
+                newIng.Ingredient1 = i.Ingredient1;
+                newIng.RecipeID = i.RecipeID;
+
+                newRecipe.Ingredients.Add(newIng);
+            }
+
+            return newRecipe;
         }
 
         /// <summary>
@@ -81,7 +112,7 @@ namespace Cookbook
         {
             //exits the form with no changes.
             DoWork = false;
-            DialogResult = true;
+            DialogResult = false;  //TODO:Should this be false? Changed from true to false
         }
 
         /// <summary>
@@ -185,10 +216,12 @@ namespace Cookbook
             List<TextBox> FieldsToValidate = new List<TextBox>();
             FieldsToValidate.Add(tbRecipeTitle);
             FieldsToValidate.Add(tbRecipeType);
-            FieldsToValidate.Add(tbRecipeYeild);
-            FieldsToValidate.Add(tbRecipeServingSize);
             FieldsToValidate.Add(tbDirections);
-            FieldsToValidate.Add(tbComment);
+
+            //According to DB design these fields CAN be blank so they will not be validated
+            //FieldsToValidate.Add(tbRecipeYield);
+            //FieldsToValidate.Add(tbRecipeServingSize);
+            //FieldsToValidate.Add(tbComment);
 
             foreach(TextBox tb in FieldsToValidate)
             {
@@ -201,6 +234,16 @@ namespace Cookbook
                 }
                 tb.BorderBrush = lstbxIngredients.BorderBrush;
             }
+
+            //Validate RecipeType since other methods assume only two values exist
+            if ((tbRecipeType.Text!="Dessert")&&(tbRecipeType.Text!="Meal Item"))
+            {
+                lblValidation.Content = "Recipe Type must be Dessert or Meal Item";
+                tbRecipeType.BorderBrush = Brushes.Red;
+                lblValidation.Visibility = Visibility.Visible;
+                return false;
+            }
+
 
             lblValidation.Visibility = Visibility.Hidden;
             return true;

@@ -52,8 +52,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="ToStringSearch">
-      <HintPath>..\Binaries\ToStringSearch.dll</HintPath>
+    <Reference Include="ToStringSearch, Version=1.0.0.0, Culture=neutral, PublicKeyToken=77a1421b505152b6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_MSIL\ToStringSearch\v4.0_1.0.0.0__77a1421b505152b6\ToStringSearch.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -67,6 +68,7 @@
     <Compile Include="AddEditRecipies.xaml.cs">
       <DependentUpon>AddEditRecipies.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CancelAndConfirm.xaml.cs" />
     <Compile Include="Ingredient.cs">
       <DependentUpon>RecipeOrganizer.tt</DependentUpon>
     </Compile>
@@ -95,8 +97,12 @@
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
     <Page Include="AddEditRecipies.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CancelAndConfirm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -166,8 +172,10 @@
   <ItemGroup>
     <Resource Include="bg1-sub.fw.png" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <Resource Include="Art\Cover.jpg" />
+    <Resource Include="Art\MainBG.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

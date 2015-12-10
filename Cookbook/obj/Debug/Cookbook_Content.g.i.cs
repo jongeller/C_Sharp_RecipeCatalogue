@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("tostringsearch.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("art/cover.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("art/mainbg.png")]
 
 
