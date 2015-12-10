@@ -173,6 +173,13 @@
                 Style="{DynamicResource RoundCorner}"
                 Click="EditIngredientClicked" />
 
+        <Button x:Name="btnDeleteIngredient" Content="Delete" Margin="56,7,57,7"  Width="45" 
+                Grid.Column="5" Grid.Row="0"
+                HorizontalAlignment="Center" VerticalAlignment="Center" 
+                IsEnabled="False" 
+                Style="{DynamicResource RoundCorner}"
+                Click="DeleteIngredientClicked" />
+        
         <Button x:Name="btnSubmitIngredient" Content="Submit" Margin="0,0,5,0"  Width="45"
                 Grid.Column="5" Grid.Row="0"
                 HorizontalAlignment="Right" VerticalAlignment="Center" 

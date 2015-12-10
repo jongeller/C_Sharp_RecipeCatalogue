@@ -33,7 +33,7 @@ namespace Cookbook
         /// This window constructor will define the form for add new or update existing.
         /// </summary>
         /// <param name="RecipeToUpdate">If there is a recipe passed in, the form will assume it needs to edit, not add a new recipe.</param>
-        public AddEditRecipies(Recipe RecipeToUpdate = null)
+        public AddEditRecipies(Recipe RecipeToUpdate = null, bool Copy = false)
         {
 
             //Check to see if recipe has been passed in.
@@ -44,6 +44,14 @@ namespace Cookbook
                 //Assign the persistant recipe a new recipe object on the heap.
                 WorkingRecipe = new Recipe();
 
+            }
+            else if(Copy)
+            {
+                Title = "Creating Copy of " + RecipeToUpdate.Title;
+
+                WorkingRecipe = CopyRecipe(RecipeToUpdate);
+
+                WorkingRecipe.Title = "Copy of: " + WorkingRecipe.Title;
             }
             else
             {
@@ -102,7 +110,16 @@ namespace Cookbook
         {
             //enables the edit button when an ingredient is selected.
             btnEditIngredient.IsEnabled = true;
-            tbIngredient.Text = (lstbxIngredients.SelectedValue as Ingredient).Ingredient1;
+            btnDeleteIngredient.IsEnabled = true;
+
+            if (lstbxIngredients.SelectedIndex > -1)
+            {
+                tbIngredient.Text = (lstbxIngredients.SelectedValue as Ingredient).Ingredient1;
+            }
+            else
+            {
+                tbIngredient.Text = "";
+            }
         }
 
         /// <summary>
@@ -142,6 +159,7 @@ namespace Cookbook
             btnSubmitIngredient.IsEnabled = true;
             btnEditIngredient.IsEnabled = false;
             btnAddIngredient.IsEnabled = false;
+            btnDeleteIngredient.IsEnabled = false;
             tbIngredient.IsEnabled = true;
 
             NewIngredient = false;
@@ -161,9 +179,23 @@ namespace Cookbook
             btnSubmitIngredient.IsEnabled = true;
             btnEditIngredient.IsEnabled = false;
             btnAddIngredient.IsEnabled = false;
+            btnDeleteIngredient.IsEnabled = false;
             tbIngredient.IsEnabled = true;
 
             NewIngredient = true;
+        }
+
+        private void DeleteIngredientClicked(object sender, RoutedEventArgs e)
+        {
+            Ingredient temp = new Ingredient();
+            temp = lstbxIngredients.SelectedItem as Ingredient;
+
+            WorkingRecipe.Ingredients.Remove(temp);
+            
+            lstbxIngredients.Items.Refresh();
+
+            
+
         }
 
         private void SubmitIngredientClicked(object sender, RoutedEventArgs e)
@@ -298,5 +330,7 @@ namespace Cookbook
             get { return WorkingRecipe.Yield; }
             set { WorkingRecipe.Yield = value; }
         }
+
+       
     }
 }

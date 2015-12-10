@@ -115,11 +115,15 @@ namespace Cookbook
             //Activate the edit button if an item is selected
             if (recipeList.SelectedIndex != -1)
             {
-                editButton.Visibility = System.Windows.Visibility.Visible;
+                editButton.Visibility = Visibility.Visible;
+                copyButton.Visibility = Visibility.Visible;
+                deleteButton.Visibility = Visibility.Visible;
             }
             else
             {
-                editButton.Visibility = System.Windows.Visibility.Hidden;
+                editButton.Visibility = Visibility.Hidden;
+                copyButton.Visibility = Visibility.Hidden;
+                deleteButton.Visibility = Visibility.Hidden;
             }
         }
         
@@ -364,6 +368,35 @@ namespace Cookbook
             }
         }
 
+        private void CopyButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Open dialog with null value to add new recipe
+            AddEditRecipies addRecipeDialog = new AddEditRecipies(RC[recipeList.SelectedValue.ToString()], true);
+            
+            CancelAndConfirm confirmDialog = new CancelAndConfirm();
+
+            addRecipeDialog.Owner = this;
+            confirmDialog.Owner = this;
+
+            //if edits were made...            
+            if ((bool)addRecipeDialog.ShowDialog())
+            {
+                if ((bool)confirmDialog.ShowDialog())
+                {
+                    //Update recipe in database
+                    RC.AddRecipe(addRecipeDialog.Recipe);
+
+
+                    //update displayed list of recipes
+                    LoadRecipes(RC.FilteredItems);
+
+                    //descLabel.Content=editRecipeDialog.Recipe.Title;
+                    recipeList.SelectedIndex = -1;
+                    UpdateUI();
+                }
+            }
+        }
+
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             int selectIndex = recipeList.SelectedIndex;
@@ -392,6 +425,20 @@ namespace Cookbook
                 }
             }
 
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            CancelAndConfirm confirmDialog = new CancelAndConfirm();
+            confirmDialog.Owner = this;
+            
+            if ((bool)confirmDialog.ShowDialog())
+            {
+                RC.DeleteRecipe(recipeList.SelectedValue.ToString());
+                recipeList.SelectedIndex = -1;
+                LoadRecipes(RC.FilteredItems);
+                UpdateUI();
+            }
         }
 
         

@@ -149,7 +149,9 @@ namespace Cookbook
                     //                                     select ingr).ToList();
                     Ingredient ingredientInstance = new Ingredient();
 
+                    //This will remove all associated ingredients from the database
                     ResetIngrList(recipeInstance);//, collectionPostion);
+                    //This adds all updated ingredients back to the database
                     foreach (Ingredient ingrUpdate in r.Ingredients)
                     {
                         ingredientInstance.RecipeID = r.RecipeID;
@@ -171,6 +173,36 @@ namespace Cookbook
 
         }
 
+        public void DeleteRecipe(String title)
+        {
+            //RecipeOrganizerEntities roContext = new RecipeOrganizerEntities();
+            //RecipeOrganizerEntities riContext = new RecipeOrganizerEntities();
+            Recipe recipe = new Recipe();
+            //Recipe recipe2delete = new Recipe();
+
+            recipe = (Recipe)this[title];
+            //recipe2delete = roContext.Recipes.First(r => r.Title == recipe.Title);
+            //foreach (Ingredient ingredient in recipe.Ingredients)
+            //{
+            //    //riContext.Ingredients.Attach(ingredient);
+            //    riContext.Ingredients.Remove(ingredient);
+            //}
+
+            //roContext.Recipes.Attach(recipe2delete);
+            //roContext.Recipes.Remove(recipe2delete);
+
+            //riContext.SaveChanges();
+
+            //roContext.SaveChanges();
+
+            ResetIngrList(recipe);
+            ResetRecipeList(recipe);
+            LoadRecipes();
+            filteredList = recipeCollection;
+            CastRecipesByType();
+
+        }
+
         //hard delete ingredients list to capture edit and add ingredients at the same time during UpdateRecipe
         public void ResetIngrList(Recipe r)// int collectionPostion)
         {
@@ -188,6 +220,25 @@ namespace Cookbook
                     {
                         rxContext.Ingredients.Remove(i);
                     }
+                    rxContext.SaveChanges();
+                }
+            }
+
+        }
+
+        public void ResetRecipeList(Recipe r)// int collectionPostion)
+        {
+            this[r.DisplayTitle] = r;
+            //this.recipeCollection[collectionPostion] = r;
+            using (RecipeOrganizerEntities rxContext = new RecipeOrganizerEntities())
+            {
+                List<Recipe> recipeInstance = (from rec in rxContext.Recipes
+                                               where rec.RecipeID == r.RecipeID
+                                               select rec).ToList();
+                //run delete only when DB record exists
+                if (recipeInstance.Count != 0)
+                {
+                    rxContext.Recipes.Remove(recipeInstance[0]);
                     rxContext.SaveChanges();
                 }
             }
